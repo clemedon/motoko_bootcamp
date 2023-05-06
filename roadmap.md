@@ -29,20 +29,130 @@ Motoko Bootcamp 2023 https://github.com/motoko-bootcamp/motokobootcamp-2023
 
 ##  01
 
+[230505 15:55 17:50] Day 1 https://github.com/motoko-bootcamp/motokobootcamp-2023/blob/main/daily_guides/day_1/GUIDE.MD
+
+*A canister is a container* for:
+* dApps (one or multiple canisters)
+* Users call
+   read  ('query'  -> no consensus -> unsecure -> 200ms)
+   write ('update' -> consensus    -> secure ->   1-2s)
+* WASM module (code / canister behavior)
+* WASM pages (memory / canister state)
+
+A module can be replaced independently of the memory, thus canisters can be
+*upgraded without the loss of their data*.
+
+Variables:
+- let -> *immutable*
+- var -> *mutable*
+- =   -> *assignment* operator
+- :=  -> *reassignment* operator
+
+    var n = 5;
+    n := 0;
+
+Types: Bool, Nat, Int, Text
+- Nat *unbounded* (no overflow possible) natural numbers (0 to inf)
+- Int integers
+- Bool booleans
+- Text strings of unicode are chars
+
+    let foo : Text = "Hello";
+    var age : Nat = 20;
+    var age = 20; // implicit typing (inference)
+    let light_on : Bool = True;
+
+Functions:
+- *public* func foo()  -> can be accessed by external users or canisters
+- *private* func foo() -> can only be called by the canister itself
+- the *async* keyword before the return value indicate that the function needs
+  some time to complete so the caller will have to wait
+
+Candid:
+- Composing services (like canisters) written in different languages is central
+  to the vision of the Internet Computer. *Candid is an IDL* (Interface
+  Description Language), it let a program written in one language communicate
+  with another program written in another unknown language.
+
+Interact with a canister:
+Local / Main net canister via dfx (CLI)
+    $ dfx canister              call <CANISTER_NAME_OR_ID> <FUNCTION_NAME> <ARGUMENT>
+    $ dfx canister --network ic call <CANISTER_NAME_OR_ID> <FUNCTION_NAME> <ARGUMENT>
+Via Candid UI
+    $ cat ./dfx/local/canister_ids.json
+    @ http://127.0.0.1:4943/?canisterId=<CANDID_UI_CANISTER_ID>&id=<CANISTER_ID>
+
+
+[230505 18:05 20:05] IC deploy sample app tutorial  https://internetcomputer.org/docs/current/tutorials/deploy_sample_app
+
+TODO
+- ERROR "Unable to route management canister request deposit_cycles:
+  SubnetNotFound" when trying to *transfer cycles* from one identity to another.
+- Candid *icp0.io* sucks, use *ic0.app*
+  https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.ic0.app/?id=f22bk-yaaaa-aaaal-acihq-cai
+  https://a4gq6-oaaaa-aaaab-qaa4q-cai.raw.icp0.io/?id=f22bk-yaaaa-aaaal-acihq-cai
+
+[230505 20:30 20:35] IC introduction https://internetcomputer.org/docs/current/developer-docs/
+[230505 20:35 21:20] IC getting started https://internetcomputer.org/docs/current/developer-docs/setup/
+
+- A *user principal* or *canister principal* can be assigned to a *controller*
+  (highest role) or *custodian* (lower role) role.
+
+[230505 21:30 22:30] SETUP DEV ENV
+
+[230506 14:05 14:25] MO language Tour https://internetcomputer.org/docs/current/motoko/main/motoko
+
+- an *actor* is an *autonomous* object that fully *encapsulates* its state and
+  *communicates* with other actors only through asynchronous messages
+
+[230506 14:25 16:30] MO basic concepts and terms https://internetcomputer.org/docs/current/motoko/main/basic-concepts
+
+The *unit type ()* is a kind of *void*
+
+    func foo() : async Text { … }
+    func foo() : async () { … }
+
+Explicit typing:
+
+    let n : Nat = 1 : Nat;
+
+Import from the base library:
+
+    import <LOCAL_MODULE_NAME> "<PATH/MODULE_BASENAME>";
+    import D "mo:base/Debug";
+
+
+Debug:
+- *print*
+
+    D.print("hello world"); // output a Text string
+    D.print(debug_show(("hello", 42))) // convert values into Text
+
+- *Prelude* library provides functions that are designed to help developers work
+  with *incomplete code* without compromising the integrity of the code or
+  causing errors during runtime using functions that type check during compile
+  time but trap at runtime if executed: P.xxx(), P.nyi, P.unreachable()
+
+- force an *unconditional trap* with user defined message:
+
+    import Debug "mo:base/Debug";
+    Debug.trap("oops!");
+
+- *assertions*
+
+    assert 1 > 0; // never traps
+
+[230505 15:30 16:00] SETUP DEV ENV (vim filetype)
+
 ***>>>>>>>>>>> HERE <<<<<<<<<<<***
-[] Day 1 https://github.com/motoko-bootcamp/motokobootcamp-2023/blob/main/daily_guides/day_1/GUIDE.MD
-
-[] IC deploy sample app tutorial  https://internetcomputer.org/docs/current/tutorials/deploy_sample_app
-[] IC introduction https://internetcomputer.org/docs/current/developer-docs/
-[] IC getting started https://internetcomputer.org/docs/current/developer-docs/setup/
-
-[] MO language Tour https://internetcomputer.org/docs/current/motoko/main/motoko
-[] MO basic concepts and terms https://internetcomputer.org/docs/current/motoko/main/basic-concepts
 [] MO base modules https://internetcomputer.org/docs/current/motoko/main/base-intro
+[] MO mutable state https://internetcomputer.org/docs/current/motoko/main/mutable-state
 
 [] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
 [] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops. https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
 [] [DAY 1 | LECTURE] How to use DFX to deploy canisters? https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
+
+[] coding challenges
 
 ##  02
 
@@ -59,6 +169,8 @@ Motoko Bootcamp 2023 https://github.com/motoko-bootcamp/motokobootcamp-2023
 [] [DAY 2 | LECTURE] Motoko: Char, Text & Iterators. https://www.youtube.com/watch?v=l-NITyRki_s&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=5
 [] [DAY 2 | EVENT] Open Dev Mentor Hour 1 https://www.youtube.com/watch?v=URei9O8T4dg&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=19
 
+[] coding challenges
+
 ##  03
 
 [] Day 3 https://github.com/motoko-bootcamp/motokobootcamp-2023/blob/main/daily_guides/day_3/GUIDE.MD
@@ -73,6 +185,8 @@ Motoko Bootcamp 2023 https://github.com/motoko-bootcamp/motokobootcamp-2023
 [] [DAY 3 | LECTURE] Frontend: How to interact with your canisters using JavaScript https://www.youtube.com/watch?v=LRGGyvGnT18&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=6
 [] [DAY 3 | LECTURE] Motoko: Custom Type, Variants, Pattern Matching & Result Type. https://www.youtube.com/watch?v=oVI6r8pr8rE&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=22
 [] [DAY 3 | LECTURE] Motoko: HashMap & CRUD https://www.youtube.com/watch?v=jMmex4Sxhqg&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=8
+
+[] coding challenges
 
 ##  04
 
@@ -94,17 +208,20 @@ Motoko Bootcamp 2023 https://github.com/motoko-bootcamp/motokobootcamp-2023
 [] MO verifying upgrade compatibility https://internetcomputer.org/docs/current/motoko/main/compatibility
 [] MO stable memory https://internetcomputer.org/docs/current/motoko/main/stablememory
 
+[] coding challenges
+
 ##  05
 
 [] Day 5 https://github.com/motoko-bootcamp/motokobootcamp-2023/blob/main/daily_guides/day_5/GUIDE.MD
 
 [] MO principals and caller identification https://internetcomputer.org/docs/current/motoko/main/caller-id
-[] MO mutable state https://internetcomputer.org/docs/current/motoko/main/mutable-state
 [] MO local objects and classes https://internetcomputer.org/docs/current/motoko/main/local-objects-classes
 
 [] [DAY 5 | LECTURE] Motoko: UNLOCK the power of Bitcoin! https://www.youtube.com/watch?v=IWWcnPj1Dfo&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=4
 [] [DAY 5 | LECTURE] Motoko: the END of oracles! https://www.youtube.com/watch?v=eKD5Ug6fXIw&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=12
 [] [DAY 5 | LECTURE] Motoko: Heartbeat & Intercanister Calls https://www.youtube.com/watch?v=tyxpMhrTCck&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=23
+
+[] coding challenges
 
 ##  06
 
@@ -123,6 +240,8 @@ Motoko Bootcamp 2023 https://github.com/motoko-bootcamp/motokobootcamp-2023
 [] [DAY 6 | LECTURE] Motoko: Packages & Testing https://www.youtube.com/watch?v=s0nQv8sNIAk&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=24
 [] [DAY 6 | PRESENTATION] Debugging and Building with the IC Inspector https://www.youtube.com/watch?v=iBaLmHiTrOQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=27
 
+[] coding challenges
+
 ##  07
 
 [] IC reproductible canister builds https://internetcomputer.org/docs/current/developer-docs/backend/reproducible-builds
@@ -136,6 +255,8 @@ Motoko Bootcamp 2023 https://github.com/motoko-bootcamp/motokobootcamp-2023
 [] [DAY 7 | EVENT] Closing Ceremony https://www.youtube.com/watch?v=arPwp9KZGy8&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=26
 [] [DAY 7 | PRESENTATION] ICServices https://www.youtube.com/watch?v=3TfRQJz4PXE&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=28
 [] [DAY 7 | PRESENTATION] IC Pipeline https://www.youtube.com/watch?v=176XUZ76_wM&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=29
+
+[] coding challenges
 
 ##  More
 
