@@ -116,12 +116,6 @@ Explicit typing:
 
     let n : Nat = 1 : Nat;
 
-Import from the base library:
-
-    import <LOCAL_MODULE_NAME> "<PATH/MODULE_BASENAME>";
-    import D "mo:base/Debug";
-
-
 Debug:
 - *print*
 
@@ -144,12 +138,59 @@ Debug:
 
 [230505 15:30 16:00] SETUP DEV ENV (vim filetype)
 
-***>>>>>>>>>>> HERE <<<<<<<<<<<***
-[] MO base modules https://internetcomputer.org/docs/current/motoko/main/base-intro
-[] MO mutable state https://internetcomputer.org/docs/current/motoko/main/mutable-state
+[230508 15:30 15:50] MO base modules https://internetcomputer.org/docs/current/motoko/main/base-intro
 
-[] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
-[] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops. https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
+Import from the base library:
+
+    import <LOCAL_MODULE_NAME> "<PATH/MODULE_BASENAME>";
+    import D "mo:base/Debug";
+
+Import from local directory
+    import Types "./types"; // import types.mo
+
+[230508 15:50 18:00] MO mutable state https://internetcomputer.org/docs/current/motoko/main/mutable-state
+
+- Simulate a var-bound variable using a let-bound variable
+
+    var x : Nat       = 0 ;
+    let y : [var Nat] = [var 0] ;
+
+- *Immutable* arrays
+
+    let a : [Nat] = [1, 2, 3];
+
+- High-order array-allocation function *Array.tabulate*
+
+    func tabulate<T>(size : Nat,  gen : Nat -> T) : [T]
+
+    let array1 : [Nat] = [1, 2, 3, 4, 6, 7, 8] ;
+
+    let array2 : [Nat] = Array.tabulate<Nat>(7, func(i:Nat) : Nat {
+        if ( i == 2 or i == 5 ) { array1[i] * i }       // change 3rd and 6th entries
+        else { array1[i] }                              // no change to other entries
+    }) ;
+
+- Unlike immutable arrays, mutable arrays have *non-shareable* types
+
+- *Mutable* array
+
+    let a : [var Nat] = [var 1, 2, 3] ;
+
+- Array allocation function *Array.init*
+
+    func init<T>(size : Nat,  x : T) : [var T]
+
+    var size : Nat = 5 ;
+    let x : [var Nat] = Array.init<Nat>(size, 0);       // [0, 0, 0, 0, 0]
+
+***>>>>>>>>>>> HERE <<<<<<<<<<<***
+[230508 18:15] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wHLprUTVPPA&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=1
+
+Svelte Motoko example
+    https://github.com/dfinity/examples/tree/master/svelte/svelte-motoko-starter
+    https://internetcomputer.org/samples
+
+[] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops. https://www.youtube.com/watch?v=E3KGcXogeKs&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=10
 [] [DAY 1 | LECTURE] How to use DFX to deploy canisters? https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
 
 [] coding challenges
