@@ -184,11 +184,30 @@ Import from local directory
     let x : [var Nat] = Array.init<Nat>(size, 0);       // [0, 0, 0, 0, 0]
 
 ***>>>>>>>>>>> HERE <<<<<<<<<<<***
-[230508 18:15] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wHLprUTVPPA&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=1
+[230509 18:30 19:45] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wHLprUTVPPA&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=1
 
 Svelte Motoko example
     https://github.com/dfinity/examples/tree/master/svelte/svelte-motoko-starter
     https://internetcomputer.org/samples
+
+Frontend dir
+- public/assets dir: files which need to have an HTML endpoint so that they can
+  be referenced by other parts of the web app.
+- entry file: in this case it is the template *index.html*. Then *main.js* adds
+  the output from *App.svelte* into the body of this template.
+- scripts: CLI scripts for saving time when working with the repo
+- components: *Component Based Design* is a process built on dividing a user
+  interface into a collection of manageable and reusable parts that are used to
+  create an end result (page or app screen).
+- store: files related to the client-side state (logged in user info that need
+  to be accessible by all components as the user browses the app)
+
+Svelte
+- tuto https://svelte.dev/tutorial/basics
+- doc https://svelte.dev/docs
+
+    "dfx export identity .pim file"
+
 
 [] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops. https://www.youtube.com/watch?v=E3KGcXogeKs&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=10
 [] [DAY 1 | LECTURE] How to use DFX to deploy canisters? https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
