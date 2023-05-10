@@ -1,6 +1,7 @@
 import Debug "mo:base/Debug";
 import Array "mo:base/Array";
 import Prelude "mo:base/Prelude";
+import Int "mo:base/Int";
 
 Debug.print("\n##### 1 #####\n");
 
@@ -46,3 +47,24 @@ let arr2 : [var Nat] = [var 2, 2, 2];
 arr2[0] := 3;
 
 Debug.print(debug_show (arr1, arr2));
+
+Debug.print("\n##### 6 #####\n");
+
+// optional type
+var name : ?Text = null;
+var name2 : ?Text = ?"Floyd";
+
+func multiply(a : Int, b : Int) : Int {
+  return a * b;
+};
+
+// TODO take int return float, how ?
+/* func multiply(a : Int, b : Int) : Float { */
+/*   var res : Float = a * b; */
+/*   res += 10.3; */
+/*   return res; */
+/* }; */
+
+
+let multiplyRes : Int = multiply(42, 2);
+Debug.print(debug_show ("Multiply result: " # Int.toText(multiplyRes)));

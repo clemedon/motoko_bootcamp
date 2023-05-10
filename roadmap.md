@@ -182,8 +182,8 @@ Import from local directory
 
     var size : Nat = 5 ;
     let x : [var Nat] = Array.init<Nat>(size, 0);       // [0, 0, 0, 0, 0]
+    var s : [Nat] = [0, 2, 3, 4];
 
-***>>>>>>>>>>> HERE <<<<<<<<<<<***
 [230509 18:30 19:45] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wHLprUTVPPA&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=1
 
 Svelte Motoko example
@@ -209,8 +209,58 @@ Svelte
     "dfx export identity .pim file"
 
 
-[] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops. https://www.youtube.com/watch?v=E3KGcXogeKs&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=10
-[] [DAY 1 | LECTURE] How to use DFX to deploy canisters? https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
+[230510 18:05 19:20] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops.  https://www.youtube.com/watch?v=E3KGcXogeKs&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=10
+
+Optional Type
+
+    var foo : ?Text = null;         // Text can't be null, ?Text can
+    var bar : ?Text = ?"Floyd";     // '?' should be used for lhs and rhs
+
+ Variables that hold an Optional Type value must be handled with a *switch-case*
+ statement because function that don't handle optional type won't be able to
+ work with them.
+
+
+- Loop and While example:
+
+    loop {
+        // same as a 'while (1)'
+    };
+
+    while (i--) {
+        // well known while
+    };
+
+
+
+- Blob = Binary Large OBject
+
+- Only 1 actor per canister
+
+[230510 19:20 21:10] [DAY 1 | LECTURE] How to use DFX to deploy canisters? https://www.youtube.com/watch?v=wtKpMjzOLvQ&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ
+
+- Identities private and public keys' location:
+
+    ~/.config/dfx/identity
+
+- Reverse gas = dev pay not the users TODO
+
+Cycles Wallets
+- A cycles wallets is a canister with a *'wallet WASM' deployed into it*
+- Cycles are always *held by canisters, not users*
+- An identity may or may not have an associated cycles wallet
+
+- There is no testnet for the IC atm.
+
+- *.dfx* directory is the entire config for your project (the local replica
+  which is a mini internet computer stores the dapp state into this directory)
+  so by removing it your *rewind to before* you first deployed the project TODO
+  deprecated ? dfx start --clean is the new way ?
+
+- dfx.json is the file that is used by dfx to execute dfx commands, for example
+  the canister ID is aliased through dfx.json
+
+- account ID and ICP Ledger are derived from the principal
 
 [] coding challenges
 
