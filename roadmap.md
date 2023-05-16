@@ -55,7 +55,7 @@ Types: Bool, Nat, Int, Text
 - Nat *unbounded* (no overflow possible) natural numbers (0 to inf)
 - Int integers
 - Bool booleans
-- Text strings of unicode are chars
+- Text strings of unicode chars
 
     let foo : Text = "Hello";
     var age : Nat = 20;
@@ -182,7 +182,6 @@ Import from local directory
 
     var size : Nat = 5 ;
     let x : [var Nat] = Array.init<Nat>(size, 0);       // [0, 0, 0, 0, 0]
-    var s : [Nat] = [0, 2, 3, 4];
 
 [230509 18:30 19:45] [DAY 1 | LECTURE] Motoko: Overview of a Repository. https://www.youtube.com/watch?v=wHLprUTVPPA&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=1
 
@@ -208,7 +207,6 @@ Svelte
 
     "dfx export identity .pim file"
 
-
 [230510 18:05 19:20] [DAY 1 | LECTURE] Motoko: variables, types, functions & loops.  https://www.youtube.com/watch?v=E3KGcXogeKs&list=PLeNYxb7vPrkhQN6-ps2krq5Un3xPD3vBQ&index=10
 
 Optional Type
@@ -220,7 +218,6 @@ Optional Type
  statement because function that don't handle optional type won't be able to
  work with them.
 
-
 - Loop and While example:
 
     loop {
@@ -231,7 +228,8 @@ Optional Type
         // well known while
     };
 
-
+TODO 'var array'
+    var s : [Nat] = [0, 2, 3, 4];
 
 - Blob = Binary Large OBject
 
@@ -246,7 +244,7 @@ Optional Type
 - Reverse gas = dev pay not the users TODO
 
 Cycles Wallets
-- A cycles wallets is a canister with a *'wallet WASM' deployed into it*
+- A cycles wallets is a canister with a *'wallet WASM'* deployed into it
 - Cycles are always *held by canisters, not users*
 - An identity may or may not have an associated cycles wallet
 
@@ -262,14 +260,134 @@ Cycles Wallets
 
 - account ID and ICP Ledger are derived from the principal
 
-[] coding challenges
+[230511 18:10 18:45] coding challenges
 
 ##  02
 
-[] Day 2 https://github.com/motoko-bootcamp/motokobootcamp-2023/blob/main/daily_guides/day_2/GUIDE.MD
+[230511 18:45 20:50] Day 2 https://github.com/motoko-bootcamp/motokobootcamp-2023/blob/main/daily_guides/day_2/GUIDE.MD
 
-[] IC motoko vs rust https://internetcomputer.org/docs/current/developer-docs/backend/choosing-language
-[] IC building smart contracts with Motoko https://internetcomputer.org/docs/current/developer-docs/backend/backend-tutorials/
+Arrays:
+
+    let date: Nat = [16, 1, 2023];
+    let size : Nat = date.size() // 3
+
+Mutable array
+
+    let arr : [var Nat] = [var 1, 2, 3];
+    arr[0] := 42;
+
+- Mutable data must be kept private and can never be shared remotely.  It
+  prevents multiple actors from simultaneously modifying a shared variable
+  without knowledge of the other actors' actions. Example:
+
+    actor {
+        public var name : Text = "Motoko";
+    };
+
+Would throw the error: public actor field name has non-shared function type var Text
+
+- The type Nat is automatcally available in Motoko but if you need to use a
+  function from Nat module you need to import it first
+
+    import Nat "mo:base/Nat";
+
+Smart-contracts VS canisters TODO
+
+Smart-contracts
+- smart-contracts are limited
+- the cost of storing is huge
+- you can't interact with a smart-contracts directly from the browser, a wallet
+  extension needs to be installed and this wallet will do the relay
+- smart-contracts rely on oracles to gather informations from the external world
+  as they are unable to interact with anything outside their blockchain
+- smart contracts can never be updated, they are permanent and immutable once
+  deployed to a blockchain
+- users need to pay fees to interact with a smart-contract
+A dapp rely on centralized entities like:
+- AWS to store the dApp frontend and data
+- Metamask to communicate from the browser with the blockchain (via infura)
+- Chainlink to interact with the external world (Web2)
+
+Caniser
+- store unlimited amount of data and run any computation
+- be accessible directly from any browser
+- communicate with the external world (Web2) through http requests
+- create and sign transactions on any blockchain (bitcoin, ethereum soon...)
+  thanks to Treshold ECDSA.
+- let you decide if the user pays fees or can interact freely with the dapp
+- be upgraded to constantly add new features and fix bugs
+
+
+
+Verify the list of controllers for a canister:
+
+    dfx canister --network ic info <CANISTER_IC>
+
+- Open Internet Services (OIS) are services that run entirely on a set of
+  canisters, whose governance is ensured through a tokenized public governance
+  canister (medium->nuance, reddit->dscvr, dropbox->icdrive, gmail->dmail...)
+
+[230512 18:30 18:40] IC motoko vs rust https://internetcomputer.org/docs/current/developer-docs/backend/choosing-language
+[230512 18:40 19:00] IC building smart contracts with Motoko https://internetcomputer.org/docs/current/developer-docs/backend/motoko/
+
+Dapp quick start:
+1. create a new project
+
+    dfx new <PROJECT_NAME> && cd <PROJECT_NAME>
+
+2. edit the backend
+3. edit the frontend
+4. deploy
+
+    dfx deploy [--network ic]
+
+6. open a browser to view the dapp
+
+[230512 19:00 20:00] **IC Add access control with identities** https://internetcomputer.org/docs/current/developer-docs/backend/motoko/access-control
+
+    A canister that associate identity to roles and behave differently function
+    of the caller's role.
+
+[230512 20:05 20:35] Use integers in calculator functions https://internetcomputer.org/docs/current/developer-docs/backend/motoko/calculator
+
+TODO issues encountered
+- "Using the default definition for the 'local' shared network because"
+  "/networks.json does not exist." due to dfx version?
+- also I noticed that if I "dfx new" the project with an 'ic_admin', trying to
+  deploy it with 'default' threw an error about 'default' not having sufficient
+  rights.  On the other hand creating with default deploying with ic_admin
+  works. (to retry)
+
+[230512 20:40 20:50] Using the candid ui to test functions in a browser https://internetcomputer.org/docs/current/developer-docs/backend/motoko/candid-ui
+
+Find the current project Candid UI canister id:
+
+    dfx canister id __Candid_UI
+
+Access the Candid UI
+
+    dfx start --background
+
+    http://127.0.0.1:4943/?canisterId=<CANDID-UI-CANISTER-IDENTIFIER>
+
+ Specify the canister identifier (.dfx/local/canister_ids.json or canister id
+ <CANISTER_NAME>) of the canister you would like to test in the Provide a
+ canister ID field.
+
+
+[] Increment a natural number https://internetcomputer.org/docs/current/developer-docs/backend/motoko/counter-tutorial
+
+[] Query using an actor https://internetcomputer.org/docs/current/developer-docs/backend/motoko/define-an-actor
+[] Explore the default project https://internetcomputer.org/docs/current/developer-docs/backend/motoko/explore-templatesPass
+[] text arguments https://internetcomputer.org/docs/current/developer-docs/backend/motoko/hello-locationMake
+[] inter-canister calls https://internetcomputer.org/docs/current/developer-docs/backend/motoko/intercanister-calls
+[] Use multiple actors https://internetcomputer.org/docs/current/developer-docs/backend/motoko/multiple-actors
+[] Import library modules https://internetcomputer.org/docs/current/developer-docs/backend/motoko/phonebook
+[] Sample code, applications, and microservices https://internetcomputer.org/docs/current/developer-docs/backend/motoko/sample-apps
+[] Create scalable apps https://internetcomputer.org/docs/current/developer-docs/backend/motoko/scalability-cancan
+[] Accept cycles from a wallet https://internetcomputer.org/docs/current/developer-docs/backend/motoko/simple-cycles
+
+
 
 [] MO concise overview https://internetcomputer.org/docs/current/motoko/main/overview
 [] MO actors and async data https://internetcomputer.org/docs/current/motoko/main/actors-async

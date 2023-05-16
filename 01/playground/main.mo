@@ -54,17 +54,60 @@ Debug.print("\n##### 6 #####\n");
 var name : ?Text = null;
 var name2 : ?Text = ?"Floyd";
 
-func multiply(a : Int, b : Int) : Int {
+func mult(a : Int, b : Int) : Int {
   return a * b;
 };
 
 // TODO take int return float, how ?
-/* func multiply(a : Int, b : Int) : Float { */
+/* func mult(a : Int, b : Int) : Float { */
 /*   var res : Float = a * b; */
 /*   res += 10.3; */
 /*   return res; */
 /* }; */
 
+let multiplyRes : Int = mult(42, 2);
+Debug.print(debug_show ("mult result: " # Int.toText(multiplyRes)));
 
-let multiplyRes : Int = multiply(42, 2);
-Debug.print(debug_show ("Multiply result: " # Int.toText(multiplyRes)));
+Debug.print("\n##### coding challenge #####\n");
+
+func multiply(n : Nat, m : Nat) : Nat {
+  return n * m;
+};
+
+Debug.print(debug_show (multiply(42, 2)));
+
+func volume(n : Nat) : Nat {
+  return n ** 3;
+};
+
+Debug.print(debug_show (volume(3)));
+
+func hoursToMinutes(n : Nat) : Nat {
+  return n * 60;
+};
+
+Debug.print(debug_show (hoursToMinutes(24)));
+
+var counter : Nat = 0;
+
+func setCounter(n : Nat) {
+  counter := n;
+};
+
+func getCounter() : Nat {
+  return counter;
+};
+
+Debug.print(debug_show (getCounter()));
+setCounter(5);
+Debug.print(debug_show (getCounter()));
+
+func isEven(n : Nat) : Bool {
+  return (n % 2 != 1) : Bool;
+};
+
+Debug.print(debug_show (isEven(0)));
+Debug.print(debug_show (isEven(1)));
+Debug.print(debug_show (isEven(2)));
+Debug.print(debug_show (isEven(3)));
+Debug.print(debug_show (isEven(4)));

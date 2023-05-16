@@ -21,3 +21,5 @@ Debug.print( debug_show( z ) );
 Debug.print( "\n##### 3 #####\n" );
 
 let swear : Text = nyi();
+
+Debug.print( "\n##### coding challenge #####\n" );
